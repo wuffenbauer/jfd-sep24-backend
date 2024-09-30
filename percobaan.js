@@ -6,7 +6,11 @@ http.createServer(function(request, response) {
     response.writeHead(200, {'Content-type': 'text/html'})
     // halaman utama
     if (request.url == '/') {        
-        response.end('<h1>Welcome to My Website.</h1>')
+        response.end(`
+            <h1>Selamat datang di situs saya</h1>
+            <br>
+            <a href="/profil">Lihat profil`
+        )
     } else if (request.url == '/profil') {
         let tahunLahir  = 1992
         let tahunIni    = 2024
@@ -20,8 +24,11 @@ http.createServer(function(request, response) {
                 <li>Pekerjaan: Mahasiswa, Freelancer</li>
                 <li>Tempat, tanggal lahir: Jakarta, 13 Juni ${tahunLahir}</li>
                 <li>Umur: ${umur} tahun</li>
-            </ul>`
+            </ul>
+            <br>
+            <a href="/">Balik ke beranda`
         )
+    // halaman hubungi saya
     } else if (request.url == '/hubungi-saya') {
         let kontak = {
             wa: '+628563559890',
@@ -36,7 +43,9 @@ http.createServer(function(request, response) {
                 <li>Email    : ${kontak.email}</li>
                 <li>LinkedIn : ${kontak.linkedin}</li>
                 <li>Instagram: ${kontak.ig}</li>
-            </ul>`
+            </ul>
+            <br>
+            <a href="/">Balik ke beranda`
         )
     // untuk menangani url yang tidak ada:
     } else {
