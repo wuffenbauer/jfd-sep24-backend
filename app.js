@@ -34,7 +34,7 @@ function getAll_karyawan() {
     })
 }
 
-function getOne_karyawan() {
+function getOne_karyawan(idkry) {
     return new Promise((resolve, reject) => {
         let sqlSyntax = 
         `SELECT
@@ -44,9 +44,9 @@ function getOne_karyawan() {
         FROM karyawan AS kry
         LEFT JOIN jabatan AS jbt ON jbt.id = kry.jabatan
         LEFT JOIN agama AS agm ON agm.id = kry.agama
-        WHERE kry.id = 1`
+        WHERE kry.id = ?`
 
-        db.query(sqlSyntax, function(errorSql, hasil) {
+        db.query(sqlSyntax, [idkry], function(errorSql, hasil) {
             if (errorSql) {
                 reject(errorSql)
             } else {
@@ -85,10 +85,10 @@ app.get('/karyawan', async function(req, res) {
     res.render('page-karyawan', data)
 })
 
-app.get('/karyawan/detail', async function(req, res) {
+app.get('/karyawan/detail/:id_karyawan', async function(req, res) {
     // ambil data satu karyawan saja
     let data = {
-        satuKaryawan: await getOne_karyawan()
+        satuKaryawan: await getOne_karyawan(req.params.id_karyawan)
     }
     res.render('page-karyawan-detail', data)
 })
