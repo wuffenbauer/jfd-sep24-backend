@@ -1,5 +1,38 @@
 const express   = require('express')
 const app       = express()
+const mysql     = require('mysql2')
+
+// sambungkan ke mysql
+const db = mysql.createConnection({
+    host    : 'localhost',
+    user    : 'root',
+    password: '',
+    database: 'dbjfd_sep24',
+})
+
+// buka koneksi
+db.connect()
+
+function getAll_karyawan() {
+    return new Promise((resolve, reject) => {
+        let sqlSyntax = 
+        `SELECT
+            kry.*, jbt.nama AS jabatan_nama, 
+            jbt.singkatan AS jabatan_singkatan,
+            agm.nama AS agama_nama
+        FROM karyawan AS kry
+        LEFT JOIN jabatan AS jbt ON jbt.id = kry.jabatan
+        LEFT JOIN agama AS agm ON agm.id = kry.agama`
+
+        db.query(sqlSyntax, function(errorSql, hasil) {
+            if (errorSql) {
+                reject(errorSql)
+            } else {
+                resolve(hasil)
+            }
+        })
+    })
+}
 
 app.set('view engine', 'ejs')   // setting penggunaan template engine untuk express
 app.set('views', './view-ejs')  // setting penggunaan folder untuk menyimpan file .ejs
@@ -22,8 +55,12 @@ app.get('/pendidikan', function(req, res) {
     res.render('page-pendidikan', profil)
 })
 
-app.get('/karyawan', function(req, res) {
-    res.render('page-karyawan')
+app.get('/karyawan', async function(req, res) {
+    // proses penarikan data
+    let data = {
+        karyawan: await getAll_karyawan()
+    }
+    res.render('page-karyawan', data)
 })
 
 // sambungkan ke server
