@@ -1,0 +1,13 @@
+<h1>Detail Karyawan</h1>
+<ul>
+    <li>Nama: <%= satuKaryawan[0].nama %></li>
+    <li>NIK: <%= satuKaryawan[0].nik %></li>
+    <li>Tanggal lahir: <%= satuKaryawan[0].tanggal_lahir %></li>
+    <li>Alamat: <%= satuKaryawan[0].alamat %></li>
+    <li>Jabatan: <%= satuKaryawan[0].jabatan_nama %> (<%= satuKaryawan[0].jabatan_singkatan %>)</li>
+    <li>Agama: <%= satuKaryawan[0].agama_nama %></li>
+</ul>
+
+<pre>
+    <%= JSON.stringify(satuKaryawan) %>
+</pre>

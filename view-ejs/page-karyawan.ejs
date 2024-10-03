@@ -1,3 +1,9 @@
+<style>
+    .p5 {
+        padding: 5px;
+    }
+</style>
+
 <h1>List Karyawan</h1>
 <hr>
 <table border="1">
@@ -6,14 +12,20 @@
             <th>NIK</th>
             <th>Nama</th>
             <th>Jabatan</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
         <% for (const i in karyawan) {%>
             <tr>
-                <td><%= karyawan[i].nik %></td>
-                <td><%= karyawan[i].nama %></td>
-                <td><%= karyawan[i].jabatan_nama %></td>
+                <td class="p5"><%= karyawan[i].nik %></td>
+                <td class="p5"><%= karyawan[i].nama %></td>
+                <td class="p5"><%= karyawan[i].jabatan_nama %></td>
+                <td class="p5">
+                    <a href="/karyawan/detail">
+                        <button>detail</button>
+                    </a>
+                </td>
             </tr>
         <% } %>
     </tbody>
