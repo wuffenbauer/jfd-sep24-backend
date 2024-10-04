@@ -6,6 +6,11 @@
 
 <h1>List Karyawan</h1>
 
+<% if (typeof notification !== 'undefined') { %>
+    <span style="color: green;"><b><%= notification %></b></span>
+    <br><br>
+    <% } %>
+
 <a href="/karyawan/tambah">
     <button>+ karyawan baru</button>
 </a>
