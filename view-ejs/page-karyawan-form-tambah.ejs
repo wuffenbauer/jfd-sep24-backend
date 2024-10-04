@@ -11,14 +11,35 @@
     <label for="">Nomor Induk Karyawan</label>
     <input type="text" name="form_nik" id="">
     <br><br>
+
     <label for="">Nama Lengkap</label>
     <input type="text" name="form_nama" id="">
     <br><br>
+
     <label for="">Tanggal Lahir</label>
     <input type="date" name="form_tanggal_lahir" id="">
     <br><br>
+
     <label for="">Alamat</label><br>
     <textarea name="form_alamat" id="" rows="5" column="50"></textarea>
+    <br><br>
+
+    <label for="">Jabatan</label>
+    <select name="form_jabatan" id="">
+        <option value="" selected>-- pilih --</option>
+        <% for (const i in jabatan) { %>
+            <option value="<%= jabatan[i].id %>"><%= jabatan[i].nama %></option>         
+        <% } %>
+    </select>
+    <br><br>
+
+    <label for="">Agama</label>
+    <select name="form_agama" id="">
+        <option value="" selected>-- pilih --</option>
+        <% for (const i in agama) { %>
+            <option value="<%= agama[i].id %>"><%= agama[i].nama %></option>         
+        <% } %>
+    </select>
     <br><br>
     <button type="submit">simpan</button>
 </form>

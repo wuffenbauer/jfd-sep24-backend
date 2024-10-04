@@ -97,8 +97,42 @@ app.get('/karyawan/detail/:id_karyawan', async function(req, res) {
     res.render('page-karyawan-detail', data)
 })
 
-app.get('/karyawan/tambah', function(req, res) {
-    res.render('page-karyawan-form-tambah')
+function getAll_jabatan() {
+    return new Promise((resolve, reject) => {
+        let sqlSyntax = 
+        `SELECT * FROM jabatan`
+
+        db.query(sqlSyntax, function(errorSql, hasil) {
+            if (errorSql) {
+                reject(errorSql)
+            } else {
+                resolve(hasil)
+            }
+        })
+    })
+}
+
+function getAll_agama() {
+    return new Promise((resolve, reject) => {
+        let sqlSyntax = 
+        `SELECT * FROM agama`
+
+        db.query(sqlSyntax, function(errorSql, hasil) {
+            if (errorSql) {
+                reject(errorSql)
+            } else {
+                resolve(hasil)
+            }
+        })
+    })
+}
+
+app.get('/karyawan/tambah', async function(req, res) {
+    let data = {
+        jabatan: await getAll_jabatan(),
+        agama: await getAll_agama(),
+    }
+    res.render('page-karyawan-form-tambah', data)
 })
 
 let formValidasiInsert = [
@@ -162,6 +196,32 @@ function insert_karyawan(req) {
         })
     })
 }
+
+function hapusKaryawan(idkry) {
+    return new Promise((resolve, reject) => {
+        let sqlSyntax = 
+        `DELETE FROM karyawan WHERE id = ?`
+
+        db.query(sqlSyntax, [idkry], function(errorSql, hasil) {
+            if (errorSql) {
+                reject(errorSql)
+            } else {
+                resolve(hasil)
+            }
+        })
+    })
+}
+
+app.get('/karyawan/hapus/:id_karyawan', async function(req, res){
+    try {
+        let hapus = await hapusKaryawan(req.params.id_karyawan)
+        if (hapus.affectedRows > 0) {
+            res.redirect('/karyawan')
+        }
+    } catch (error) {
+        throw error
+    }
+})
 
 // sambungkan ke server
 app.listen(3000, () => {
