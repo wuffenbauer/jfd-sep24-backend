@@ -178,13 +178,15 @@ function insert_karyawan(req) {
         `INSERT INTO karyawan
         (nama, nik, tanggal_lahir, alamat, jabatan, agama)
         VALUES
-        (?, ?, ?, ?, null, null)`
+        (?, ?, ?, ?, ?, ?)`
 
         let sqlData = [
             req.body.form_nama,
             req.body.form_nik,
             req.body.form_tanggal_lahir,
             req.body.form_alamat,
+            req.body.form_jabatan,
+            req.body.form_agama,
         ]
 
         db.query(sqlSyntax, sqlData, function(errorSql, hasil) {
