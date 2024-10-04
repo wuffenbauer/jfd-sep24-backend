@@ -1,6 +1,7 @@
 const express   = require('express')
 const app       = express()
 const mysql     = require('mysql2')
+const {body, query, validationResult} = require('express-validator')
 
 // sambungkan ke mysql
 const db = mysql.createConnection({
@@ -100,26 +101,41 @@ app.get('/karyawan/tambah', function(req, res) {
     res.render('page-karyawan-form-tambah')
 })
 
-app.post('/karyawan/proses-insert-data', async function(req, res) {
-    // 1. tangkap isi data dari masing-masing form
-    // req.body             => ambil semua inputan dari form
-    // req.body.nama_form   => ambil satuan inputan dari form
+let formValidasiInsert = [
+    body('form_nik').notEmpty().isNumeric(),
+    body('form_nama').notEmpty().isString(),
+]
 
-    try {
-        // 2. kirim sebagai script SQL
-        let insert = await insert_karyawan(req)
-
-        // 3. proses pengecekan (terinput ke db atau gagal)
-        if (insert.affectedRows > 0) {
-            // 4a. jika berhasil, tampilkan pesan sukses
-            res.redirect('/karyawan')
-            // console.log('Berhasil input ke database')
+app.post('/karyawan/proses-insert-data', formValidasiInsert, async function(req, res) {
+    const errors = validationResult(req)
+    // jika lolos validasi
+    if (errors.isEmpty()) {
+        // 1. tangkap isi data dari masing-masing form
+        // req.body             => ambil semua inputan dari form
+        // req.body.nama_form   => ambil satuan inputan dari form
+    
+        try {
+            // 2. kirim sebagai script SQL
+            let insert = await insert_karyawan(req)
+    
+            // 3. proses pengecekan (terinput ke db atau gagal)
+            if (insert.affectedRows > 0) {
+                // 4a. jika berhasil, tampilkan pesan sukses
+                res.redirect('/karyawan')
+                // console.log('Berhasil input ke database')
+            }
+        } catch (error) {
+            // 4b. jika gagal, tampilkan pesan error
+            throw error
         }
-    } catch (error) {
-        // 4b. jika gagal, tampilkan pesan error
-        throw error
+    } // jika tidak lolos
+    else {
+        let errorData = {
+            pesanError: errors.array()
+        }
+        errorData.pesanError[0].fields
+        res.render('page-karyawan-form-tambah', errorData)
     }
-
 })
 
 function insert_karyawan(req) {

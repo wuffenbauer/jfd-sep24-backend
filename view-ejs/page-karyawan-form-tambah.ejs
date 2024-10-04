@@ -1,5 +1,12 @@
 <h1>Input Karyawan Baru</h1>
-<hr>
+
+<% if (typeof pesanError !== 'undefined') { %>
+    <span style="color: red;">
+        <%= pesanError[0].path + ': ' + pesanError[0].msg + ' ' + pesanError[0].value %>
+    </span>
+    <br><br>
+<% } %>
+
 <form action="/karyawan/proses-insert-data" method="post">
     <label for="">Nomor Induk Karyawan</label>
     <input type="text" name="form_nik" id="">
