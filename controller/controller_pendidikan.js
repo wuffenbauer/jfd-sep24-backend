@@ -1,9 +1,10 @@
 module.exports = {
     halaman_pendidikan: function(req, res) {
         let profil = {
-            nama: 'Amirah Puspadewi',
-            s1  : 'Universitas Terbuka - Sastra Inggris Bidang Minat Penerjemahan',
-            sma : 'SMAN 2 Kota Tangerang Selatan - IPS',
+            nama: 'Aji Kowiyu',
+            s1: 'ITB Swadharma: Sistem Informasi',
+            smk: 'SMK Remaja Pluit: Akuntansi',
         }
+        res.render('page-pendidikan', profil)
     }
 }
