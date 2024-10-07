@@ -15,9 +15,13 @@ const db = mysql.createConnection({
 // buka koneksi
 db.connect()
 
-const model_jabatan = require('./model/model_jabatan')
-const model_agama   = require('./model/model_agama')
-const model_karyawan= require('./model/model_karyawan')
+const model_jabatan     = require('./model/model_jabatan')
+const model_agama       = require('./model/model_agama')
+const model_karyawan    = require('./model/model_karyawan')
+
+const cont_default      = require('./controller/controller_default')
+const cont_pendidikan   = require('./controller/controller_pendidikan')
+const cont_karyawan     = require('./controller/controller_karyawan')
 
 // untuk mengambil data yang ter-encoded (enkripsi)
 // yang dikirimkan melalui protokol http
@@ -30,18 +34,8 @@ app.set('views', './view-ejs')  // setting penggunaan folder untuk menyimpan fil
 // otomatis mengambil file .ejs yang ada di folder view-ejs
 
 // bikin rute
-app.get('/', function(req, res) {
-    res.render('beranda')
-})
-
-app.get('/pendidikan', function(req, res) {
-    let profil = {
-        nama: 'Amirah Puspadewi',
-        s1  : 'Universitas Terbuka - Sastra Inggris Bidang Minat Penerjemahan',
-        sma : 'SMAN 2 Kota Tangerang Selatan - IPS',
-    }
-    res.render('page-pendidikan', profil)
-})
+app.get('/', cont_default.halaman_beranda)
+app.get('/pendidikan', cont_pendidikan.halaman_pendidikan)
 
 app.get('/karyawan', async function(req, res) {
     // proses penarikan data
