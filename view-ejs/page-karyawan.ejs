@@ -21,7 +21,7 @@
             <th>NIK</th>
             <th>Nama</th>
             <th>Jabatan</th>
-            <th colspan="2">Aksi</th>
+            <th colspan="3">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +33,11 @@
                 <td class="p5">
                     <a href="/karyawan/detail/<%= karyawan[i].id %>">
                         <button>rincian</button>
+                    </a>
+                </td>
+                <td class="p5">
+                    <a href="/karyawan/edit/<%= karyawan[i].id %>">
+                        <button>edit</button>
                     </a>
                 </td>
                 <td class="p5">

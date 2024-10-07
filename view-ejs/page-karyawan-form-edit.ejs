@@ -1,0 +1,47 @@
+<h1>Edit Data Karyawan</h1>
+
+<% if (typeof pesanError !== 'undefined') { %>
+    <span style="color: red;">
+        <%= pesanError[0].path + ': ' + pesanError[0].msg + ' ' + pesanError[0].value %>
+    </span>
+    <br><br>
+<% } %>
+
+<form action="/karyawan/proses-insert-data" method="post">
+    <label for="">Nomor Induk Karyawan</label>
+    <input type="text" name="form_nik" value="<%= satuKaryawan[0].nik %>">
+    <br><br>
+
+    <label for="">Nama Lengkap</label>
+    <input type="text" name="form_nama" value="<%= satuKaryawan[0].nama %>">
+    <br><br>
+
+    <label for="">Tanggal Lahir</label>
+    <input type="date" name="form_tanggal_lahir" value="<%= moment(satuKaryawan[0].tanggal_lahir).format('YYYY-MM-DD') %>">
+    <br><br>
+
+    <label for="">Alamat</label><br>
+    <textarea name="form_alamat" value="" rows="5" column="50"><%= satuKaryawan[0].alamat %></textarea>
+    <br><br>
+
+    <label for="">Jabatan</label>
+    <select name="form_jabatan" id="">
+        <option value="">-- pilih --</option>
+        <% for (const i in jabatan) { %>
+            <% let dipilih = (satuKaryawan[0].jabatan) == jabatan[i].id ? 'selected' : '' %>
+            <option value="<%= jabatan[i].id %>" <%= dipilih %>><%= jabatan[i].nama %></option>         
+        <% } %>
+    </select>
+    <br><br>
+
+    <label for="">Agama</label>
+    <select name="form_agama" id="">
+        <option value="">-- pilih --</option>
+        <% for (const i in agama) { %>
+            <% let dipilih = (satuKaryawan[0].agama) == agama[i].id ? 'selected' : '' %>
+            <option value="<%= agama[i].id %>" <%= dipilih %>><%= agama[i].nama %></option>         
+        <% } %>
+    </select>
+    <br><br>
+    <button type="submit">simpan</button>
+</form>
