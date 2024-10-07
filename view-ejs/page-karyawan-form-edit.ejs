@@ -7,7 +7,7 @@
     <br><br>
 <% } %>
 
-<form action="/karyawan/proses-insert-data" method="post">
+<form action="/karyawan/proses-update-data/<%= satuKaryawan[0].id %>" method="post">
     <label for="">Nomor Induk Karyawan</label>
     <input type="text" name="form_nik" value="<%= satuKaryawan[0].nik %>">
     <br><br>

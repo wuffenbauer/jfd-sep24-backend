@@ -157,7 +157,7 @@ app.post('/karyawan/proses-insert-data', formValidasiInsert, async function(req,
             // 3. proses pengecekan (terinput ke db atau gagal)
             if (insert.affectedRows > 0) {
                 // 4a. jika berhasil, tampilkan pesan sukses
-                res.redirect('/karyawan?notification=Berhasil input karyawan baru')
+                res.redirect('/karyawan?notification=Berhasil menambah data karyawan')
                 // console.log('Berhasil input ke database')
             }
         } catch (error) {
@@ -243,13 +243,48 @@ app.get('/karyawan/hapus/:id_karyawan', async function(req, res){
 
 app.get('/karyawan/edit/:id_karyawan', async function(req, res) {
     let data = {
-    satuKaryawan: await getOne_karyawan(req.params.id_karyawan),
-    jabatan: await getAll_jabatan(),
-    agama: await getAll_agama(),
-    moment: moment,
-}
+        satuKaryawan: await getOne_karyawan(req.params.id_karyawan),
+        jabatan: await getAll_jabatan(),
+        agama: await getAll_agama(),
+        moment: moment,
+    }
     res.render('page-karyawan-form-edit', data)
 })
+
+app.post('/karyawan/proses-update-data/:id_karyawan', async function(req, res) {
+    try {
+        let update = await update_karyawan(req)
+        if (update.affectedRows > 0) {
+            res.redirect('/karyawan?notification=Berhasil perbarui data karyawan')
+        }
+    } catch (error) {
+        throw error
+    }
+})
+
+function update_karyawan(req) {
+    return new Promise((resolve, reject) => {
+        let sqlSyntax = 
+        `UPDATE karyawan SET ? WHERE id = ?`
+
+        let sqlData = {
+            nama            : req.body.form_nama,
+            nik             : req.body.form_nik,
+            tanggal_lahir   : req.body.form_tanggal_lahir,
+            alamat          : req.body.form_alamat,
+            jabatan         : req.body.form_jabatan,
+            agama           : req.body.form_agama,
+        }
+
+        db.query(sqlSyntax, [sqlData, req.params.id_karyawan], function(errorSql, hasil) {
+            if (errorSql) {
+                reject(errorSql)
+            } else {
+                resolve(hasil)
+            }
+        })
+    })
+}
 
 // sambungkan ke server
 app.listen(3000, () => {
